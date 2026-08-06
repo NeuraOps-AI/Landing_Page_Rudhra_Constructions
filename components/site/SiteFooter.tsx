@@ -5,9 +5,9 @@ import { LineIcon } from "./LineIcon";
 
 const columns = [
   { title: "Company", links: [["About Us", "/about"], ["Why Rudhra", "/#why-rudhra"], ["Our Team", "/about#team"], ["Careers", "/contact"], ["News & Media", "/about"]] },
-  { title: "Projects", links: [["Ongoing Projects", "/projects"], ["Completed Projects", "/projects"], ["Upcoming Projects", "/projects"], ["Residential Villas", "/projects/rudhra-villas"], ["Commercial Spaces", "/projects"], ["Gated Communities", "/projects"]] },
+  { title: "Projects", links: [["Ongoing Projects", "/projects"], ["Completed Projects", "/projects"], ["Upcoming Projects", "/projects"], ["Residential Villas", "/projects/royal-village-2"], ["Commercial Spaces", "/projects/rudhra-empire"], ["Gated Communities", "/projects/park-avenue"]] },
   { title: "Services", links: [["Architecture Design", "/contact"], ["Interior Design", "/contact"], ["Construction", "/contact"], ["Project Management", "/contact"], ["Turnkey Solutions", "/contact"], ["Consultation", "/contact"]] },
-  { title: "Resources", links: [["Brochure Download", "/projects/rudhra-villas"], ["Gallery", "/projects/rudhra-villas#gallery"], ["FAQs", "/contact"], ["Blog", "/about"], ["Policies", "/contact"]] },
+  { title: "Resources", links: [["Project Portfolio", "/projects"], ["Gallery", "/projects/park-avenue#gallery"], ["FAQs", "/contact"], ["Blog", "/about"], ["Policies", "/contact"]] },
 ];
 
 export function SiteFooter({ showBenefits = true }: { showBenefits?: boolean }) {
@@ -17,12 +17,12 @@ export function SiteFooter({ showBenefits = true }: { showBenefits?: boolean }) 
       <div className="site-footer-body">
         <div className="site-footer-grid">
           <div className="footer-brand-column">
-            <Brand />
+            <div className="footer-brand-surface"><Brand /></div>
             <p className="footer-tagline">Crafting spaces that inspire.<br />Creating legacies that endure.</p>
             <div className="footer-contact-list">
-              <p><LineIcon name="location" /><span>Rudhra Constructions Pvt. Ltd.<br />6-3-248/A/2, Road No. 1, Banjara Hills,<br />Hyderabad, Telangana – 500034.</span></p>
-              <p><LineIcon name="phone" /><span>+91 91000 12345<br />+91 91000 67890</span></p>
-              <p><LineIcon name="mail" /><span>info@rudhraconstructions.com<br />projects@rudhraconstructions.com</span></p>
+              <p><LineIcon name="location" /><span>RUDHRA HOUSE<br />3rd AND 4th FLOORS, PLOT NO. 8&amp;9,<br />Bachupally, Kakatiya Hills, ANAND NAIDU NAGAR,<br />Pragathi Nagar, Hyderabad, Telangana 500090</span></p>
+              <p><LineIcon name="phone" /><span>+91 83094 75836<br />+91 99498 36096</span></p>
+              <p><LineIcon name="mail" /><span>sales@rudhraconstructions.com</span></p>
             </div>
           </div>
           {columns.map((column) => (

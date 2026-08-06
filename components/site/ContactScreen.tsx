@@ -2,26 +2,30 @@ import type { ReactNode } from "react";
 import { ContactForm } from "./ContactForm";
 import { LineIcon } from "./LineIcon";
 
-const contactDetails: Array<{ icon: string; title: string; content: ReactNode }> = [
+const contactDetails: Array<{ id: string; icon: string; title: string; content: ReactNode }> = [
   {
-    icon: "location",
-    title: "Visit Us",
-    content: <>Rudhra Constructions Pvt. Ltd.<br />6-3-248/A/2, Road No. 1, Banjara Hills,<br />Hyderabad, Telangana – 500034.</>,
-  },
-  {
+    id: "primary-phone",
     icon: "phone",
-    title: "Call Us",
-    content: <>+91 91000 12345<br />+91 91000 67890</>,
+    title: "Phone Number",
+    content: <>+91 83094 75836</>,
   },
   {
+    id: "secondary-phone",
+    icon: "phone",
+    title: "Phone Number",
+    content: <>+91 99498 36096</>,
+  },
+  {
+    id: "business-email",
     icon: "mail",
-    title: "Email Us",
-    content: <>info@rudhraconstructions.com<br />projects@rudhraconstructions.com</>,
+    title: "Business Email",
+    content: <>sales@rudhraconstructions.com</>,
   },
   {
-    icon: "clock",
-    title: "Business Hours",
-    content: <>Mon – Sat: 9:30 AM – 6:30 PM<br />Sunday: By Appointment</>,
+    id: "business-address",
+    icon: "location",
+    title: "Business Address",
+    content: <>RUDHRA HOUSE<br />3rd AND 4th FLOORS, PLOT NO. 8&amp;9,<br />Bachupally, Kakatiya Hills, ANAND NAIDU NAGAR,<br />Pragathi Nagar, Hyderabad, Telangana 500090</>,
   },
 ];
 
@@ -31,7 +35,7 @@ type ContactScreenProps = {
 };
 
 export function ContactScreen({ headingLevel = "h1", headingId }: ContactScreenProps) {
-  const heading = <>Let&apos;s Build Something<br />Extraordinary Together.</>;
+  const heading = <>Rudhra Constructions Pvt Ltd</>;
 
   return (
     <div className="contact-layout">
@@ -41,10 +45,10 @@ export function ContactScreen({ headingLevel = "h1", headingId }: ContactScreenP
           {headingLevel === "h1" ? <h1 id={headingId}>{heading}</h1> : <h2 id={headingId}>{heading}</h2>}
           <span />
         </div>
-        <p className="contact-lead">Have a project in mind or need more information?<br />We&apos;d love to hear from you.</p>
+        <p className="contact-lead">Connect with us today to enhance your living experience!<br />Your dream home awaits — reach out now!</p>
         <div className="contact-detail-list">
           {contactDetails.map((detail) => (
-            <article key={detail.title}>
+            <article key={detail.id}>
               <span><LineIcon name={detail.icon} /></span>
               <div><h3>{detail.title}</h3><p>{detail.content}</p></div>
             </article>

@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { LineIcon } from "@/components/site/LineIcon";
 import { LifestyleCarousel } from "@/components/site/LifestyleCarousel";
 import { ProjectsExplorer } from "@/components/site/ProjectsExplorer";
-import { siteProjects } from "@/data/site";
+import { getProjectsByStatus, webProjectImage } from "@/data/projects";
 
 const metrics = [
   ["building", "25+", "Years of Excellence"],
@@ -16,16 +16,28 @@ const metrics = [
 ];
 
 export default function HomePage() {
+  const featuredProjects = getProjectsByStatus("Ongoing").slice(0, 3);
+
   return (
     <>
-      <main>
+      <main className="home-page-surface">
+        <div className="home-background-gallery" aria-hidden="true">
+          <span className="home-construction-edge is-left" />
+          <span className="home-construction-edge is-right" />
+        </div>
         <section className="full-video-hero" aria-labelledby="home-title">
           <AmbientVideo src="/video/rudhra-showcase.mp4" poster="/images/rudhra-villa-poster.png" />
           <div className="full-video-scrim" aria-hidden="true" />
           <div className="full-video-content">
             <p>Rudhra Constructions</p>
-            <h1 id="home-title">Building spaces that become lasting legacies.</h1>
-            <span>Thoughtful architecture. Enduring quality. Homes created around the way you live.</span>
+            <h1 id="home-title">
+              <span>Designing spaces.</span>
+              <span>Building legacies.</span>
+            </h1>
+            <span>
+              Thoughtful architecture. Enduring quality.<br />
+              Homes created around the way you live.
+            </span>
             <Link href="/projects" className="primary-button">Explore Our Projects <strong>↗</strong></Link>
           </div>
           <a href="#why-rudhra" className="video-scroll-cue" aria-label="Scroll to discover more"><span />Discover</a>
@@ -50,9 +62,9 @@ export default function HomePage() {
             <span />
           </div>
           <div className="featured-grid">
-            {siteProjects.slice(0, 3).map((project) => (
-              <Link key={project.slug} href="/projects/rudhra-villas" className="featured-card">
-                <Image src={project.image} alt={project.alt} fill sizes="(min-width: 900px) 33vw, 94vw" className="object-cover" />
+            {featuredProjects.map((project) => (
+              <Link key={project.slug} href={`/projects/${project.slug}`} className="featured-card">
+                <Image src={webProjectImage(project.image)} alt={project.alt} fill sizes="(min-width: 900px) 33vw, 94vw" className="object-cover" />
                 <div><small>{project.category}</small><h3>{project.name}</h3><p>{project.location}</p></div>
               </Link>
             ))}

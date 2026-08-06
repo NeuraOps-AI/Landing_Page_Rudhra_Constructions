@@ -2,9 +2,14 @@
 
 import { FormEvent, useState } from "react";
 import { LineIcon } from "./LineIcon";
+import { PremiumSelect } from "./PremiumSelect";
+
+const interestOptions = ["Premium Villas", "Luxury Apartments", "Commercial Spaces", "Architecture & Construction"];
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [interest, setInterest] = useState("");
+  const [interestError, setInterestError] = useState(false);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -13,8 +18,14 @@ export function ContactForm() {
       form.reportValidity();
       return;
     }
+    if (!interest) {
+      setInterestError(true);
+      return;
+    }
     setSubmitted(true);
     form.reset();
+    setInterest("");
+    setInterestError(false);
   };
 
   return (
@@ -26,7 +37,17 @@ export function ContactForm() {
         <label><LineIcon name="phone" /><span className="sr-only">Phone number</span><input name="phone" placeholder="Phone Number" autoComplete="tel" inputMode="tel" required /></label>
       </div>
       <label><LineIcon name="mail" /><span className="sr-only">Email address</span><input type="email" name="email" placeholder="Email Address" autoComplete="email" required /></label>
-      <label><LineIcon name="building" /><span className="sr-only">Project interest</span><select name="interest" defaultValue="" required><option value="" disabled>I’m interested in</option><option>Premium Villas</option><option>Luxury Apartments</option><option>Commercial Spaces</option><option>Architecture & Construction</option></select></label>
+      <PremiumSelect
+        name="interest"
+        value={interest}
+        options={interestOptions}
+        placeholder="I’m interested in"
+        invalid={interestError}
+        onChange={(value) => {
+          setInterest(value);
+          setInterestError(false);
+        }}
+      />
       <label className="items-start"><LineIcon name="message" /><span className="sr-only">Message</span><textarea name="message" placeholder="Your Message" rows={4} required /></label>
       <label className="form-consent"><input type="checkbox" name="consent" required /><span>I agree to receive communications from Rudhra Constructions.</span></label>
       <button type="submit" className="primary-button"><LineIcon name="send" />Send Message</button>
