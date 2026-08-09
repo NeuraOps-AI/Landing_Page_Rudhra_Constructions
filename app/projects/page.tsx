@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Projects | Rudhra Constructions", de
 export default function ProjectsPage() {
   return (
     <>
-      <main className="page-section projects-page">
+      <main id="projects" className="page-section projects-page">
         <div className="section-heading centered projects-heading">
           <p>Our Projects</p>
           <h1>Spaces We’re Building.<br />Legacies We’re Creating.</h1>

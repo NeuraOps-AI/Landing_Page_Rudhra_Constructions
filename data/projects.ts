@@ -153,6 +153,72 @@ export const projects: Project[] = [
     floorPlans: [media("/images/Ongoing projects/Rudhra Empire/Empire-building.png", "Rudhra Empire architectural elevation")],
   },
   {
+    slug: "maanya-heaven",
+    name: "Maanya Heaven",
+    category: "Residential Community",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Maanya heaven/1 copy.jpg",
+    alt: "Maanya Heaven completed residential community",
+    description: "Maanya Heaven is a completed residential community shaped around contemporary architecture and comfortable family living.",
+    facts: [
+      { icon: "home", value: "Residential", label: "Community" },
+      { icon: "location", value: "Hyderabad", label: "Telangana" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Residential community"], ["Location", "Hyderabad, Telangana"], ["Status", "Completed"]],
+    highlights: ["Contemporary residential design", "Thoughtfully planned family homes", "Completed Rudhra community"],
+    gallery: [
+      media("/images/Completed Projects/Maanya heaven/1 copy.jpg", "Maanya Heaven exterior view"),
+      media("/images/Completed Projects/Maanya heaven/2 copy.jpg", "Maanya Heaven alternate exterior view"),
+    ],
+    floorPlans: [],
+  },
+  {
+    slug: "maanya-casa",
+    name: "Maanya Casa",
+    category: "Premium Residences",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Maanya Casa/Naveen_Kumar_108x50_______South_&_East_View_______Model____1_-_3___..._..jpg",
+    alt: "Maanya Casa premium residential design",
+    description: "Maanya Casa is a completed premium residential project with a refined contemporary architectural character.",
+    facts: [
+      { icon: "home", value: "Premium", label: "Residences" },
+      { icon: "location", value: "Hyderabad", label: "Telangana" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Premium residences"], ["Location", "Hyderabad, Telangana"], ["Status", "Completed"]],
+    highlights: ["Contemporary residential elevation", "Premium architectural detailing", "Completed Rudhra project"],
+    gallery: [
+      media("/images/Completed Projects/Maanya Casa/Naveen_Kumar_108x50_______South_&_East_View_______Model____1_-_3___..._..jpg", "Maanya Casa south and east view"),
+      media("/images/Completed Projects/Maanya Casa/Naveen_Kumar_108x50_______South_&_East_View_______Model____1_-_4___..._..jpg", "Maanya Casa alternate south and east view"),
+    ],
+    floorPlans: [],
+  },
+  {
+    slug: "maanya-arched",
+    name: "Maanya Arched",
+    category: "Premium Residences",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Maanya Arched/NAVEEN KUMAR 40X60   _   East View   _   Model   1 - 1    ... ..jpg",
+    alt: "Maanya Arched premium residence",
+    description: "Maanya Arched is a completed premium residential project presented through its distinctive east- and west-facing architectural views.",
+    facts: [
+      { icon: "home", value: "Premium", label: "Residences" },
+      { icon: "building", value: "East & West", label: "Elevations" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Premium residences"], ["Design Views", "East & west"], ["Status", "Completed"]],
+    highlights: ["Distinctive architectural character", "East- and west-facing design views", "Completed Rudhra project"],
+    gallery: [
+      media("/images/Completed Projects/Maanya Arched/NAVEEN KUMAR 40X60   _   East View   _   Model   1 - 1    ... ..jpg", "Maanya Arched east view"),
+      media("/images/Completed Projects/Maanya Arched/NAVEEN KUMAR 40X60   _   West View   _   Model   1 - 1    ... ..jpg", "Maanya Arched west view"),
+    ],
+    floorPlans: [],
+  },
+  {
     slug: "royal-village",
     name: "Royal Village",
     category: "Villa Community",
@@ -176,6 +242,7 @@ export const projects: Project[] = [
       media("/images/Completed Projects/Royal village/East Villa.tif", "Royal Village east villa"),
       media("/images/Completed Projects/Royal village/Street View.tif", "Royal Village street view"),
       media("/images/Completed Projects/Royal village/West Villa.tif", "Royal Village west villa"),
+      media("/images/Completed Projects/Royal village/logo/Royal Village JPG.jpg", "Royal Village project identity"),
     ],
     floorPlans: [
       media("/images/Completed Projects/Royal village/Master Plan.jpg", "Royal Village master plan"),
@@ -184,6 +251,11 @@ export const projects: Project[] = [
       media("/images/Completed Projects/Royal village/floorplans/typical-east.jpg", "Royal Village typical east-facing floor plan"),
       media("/images/Completed Projects/Royal village/floorplans/typical-north.jpg", "Royal Village typical north-facing floor plan"),
       media("/images/Completed Projects/Royal village/floorplans/typical-west.jpg", "Royal Village typical west-facing floor plan"),
+      media("/images/Completed Projects/Royal village/floorplans/east-villa-small.jpg", "Royal Village compact east villa floor plan"),
+      media("/images/Completed Projects/Royal village/floorplans/west-villa-small.jpg", "Royal Village compact west villa floor plan"),
+      media("/images/Completed Projects/Royal village/floorplans/typical-east-small.jpg", "Royal Village compact typical east-facing floor plan"),
+      media("/images/Completed Projects/Royal village/floorplans/typical-north-small.jpg", "Royal Village compact typical north-facing floor plan"),
+      media("/images/Completed Projects/Royal village/floorplans/typical-west-small.jpg", "Royal Village compact typical west-facing floor plan"),
     ],
   },
   {
@@ -208,6 +280,7 @@ export const projects: Project[] = [
       media("/images/Completed Projects/Dhivi/P-20 Bird View.jpg", "Dhivi project bird view"),
       media("/images/Completed Projects/Dhivi/P-20 Night View.jpg", "Dhivi project night view"),
       media("/images/Completed Projects/Dhivi/dhivi_slider.jpg", "Dhivi residential elevation"),
+      media("/images/Completed Projects/Dhivi/Dhivi Logo P-20.jpg", "Dhivi project identity"),
     ],
     floorPlans: [],
   },
@@ -243,6 +316,44 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "rudhra-aavasa",
+    name: "Rudhra Aavasa",
+    category: "Residential Community",
+    location: "Suraram, Hyderabad",
+    status: "Completed",
+    image: "/images/Completed Projects/Rudhra Aavasa/P-09 AAVAASA suraram.jpg",
+    alt: "Rudhra Aavasa completed residential community in Suraram",
+    description: "Rudhra Aavasa is a completed residential development in Suraram designed for contemporary community living.",
+    facts: [
+      { icon: "home", value: "Residential", label: "Community" },
+      { icon: "location", value: "Suraram", label: "Hyderabad" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Residential community"], ["Location", "Suraram, Hyderabad"], ["Status", "Completed"]],
+    highlights: ["Completed residential development", "Contemporary community planning", "Suraram location"],
+    gallery: [media("/images/Completed Projects/Rudhra Aavasa/P-09 AAVAASA suraram.jpg", "Rudhra Aavasa project view")],
+    floorPlans: [],
+  },
+  {
+    slug: "rudhra-kuteer",
+    name: "Rudhra Kuteer",
+    category: "Residential Community",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Rudhra Kuteer/P-10 KUTEER.jpg",
+    alt: "Rudhra Kuteer completed residential community",
+    description: "Rudhra Kuteer is a completed residential development combining purposeful planning with enduring architectural quality.",
+    facts: [
+      { icon: "home", value: "Residential", label: "Community" },
+      { icon: "location", value: "Hyderabad", label: "Telangana" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Residential community"], ["Location", "Hyderabad, Telangana"], ["Status", "Completed"]],
+    highlights: ["Completed residential development", "Purposeful architectural planning", "Designed for family living"],
+    gallery: [media("/images/Completed Projects/Rudhra Kuteer/P-10 KUTEER.jpg", "Rudhra Kuteer project view")],
+    floorPlans: [],
+  },
+  {
     slug: "hastina",
     name: "Hastina",
     category: "2 & 3 BHK Residences",
@@ -265,6 +376,8 @@ export const projects: Project[] = [
       media("/images/Completed Projects/Hastina/Final_View_6_ FFFFF copy.jpg", "Hastina project view"),
       media("/images/Completed Projects/Hastina/Final_View_7__FFF copy.jpg", "Hastina community view"),
       media("/images/Completed Projects/Hastina/Final_View_8_FDFFFf copy.jpg", "Hastina completed architecture"),
+      media("/images/Completed Projects/Hastina/Hasitna.png", "Hastina project identity"),
+      media("/images/Completed Projects/Hastina/hastina.jpg", "Hastina project overview"),
     ],
     floorPlans: [
       media("/images/Completed Projects/Hastina/Floor plans/Hastina-f-b.jpg", "Hastina floor plan B"),
@@ -302,9 +415,36 @@ export const projects: Project[] = [
       media("/images/Completed Projects/Bhuvi/new_view_09_FFF.jpg", "Bhuvi community view"),
       media("/images/Completed Projects/Bhuvi/view_01_new_FFFF.jpg", "Bhuvi residential elevation"),
       media("/images/Completed Projects/Bhuvi/view_01_night__00001_FFF.jpg", "Bhuvi night view"),
+      media("/images/Completed Projects/Bhuvi/view_05_new_FFF.jpg", "Bhuvi additional architectural view"),
       media("/images/Completed Projects/Bhuvi/view_06_new_FFF.jpg", "Bhuvi completed exterior"),
+      media("/images/Completed Projects/Bhuvi/1.jpg", "Bhuvi project identity"),
     ],
     floorPlans: [media("/images/Completed Projects/Bhuvi/bhuvi-floor-plan.jpg", "Bhuvi residential floor plan")],
+  },
+  {
+    slug: "rudhra-raaga",
+    name: "Rudhra Raaga",
+    category: "Premium Residences",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR   20X85   _   South & East View   _   Model   1 - 2   ... . copy.jpg",
+    alt: "Rudhra Raaga premium residential design",
+    description: "Rudhra Raaga is a completed premium residential project represented through a collection of south- and east-facing architectural compositions.",
+    facts: [
+      { icon: "home", value: "Premium", label: "Residences" },
+      { icon: "building", value: "Multiple", label: "Design Options" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Premium residences"], ["Location", "Hyderabad, Telangana"], ["Status", "Completed"]],
+    highlights: ["Multiple residential design options", "Contemporary south- and east-facing views", "Completed Rudhra project"],
+    gallery: [
+      media("/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR   20X85   _   South & East View   _   Model   1 - 2   ... . copy.jpg", "Rudhra Raaga 20 by 85 residence view one"),
+      media("/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR   20X85   _   South & East View   _   Model   1 - 4   ... . copy.jpg", "Rudhra Raaga 20 by 85 residence view two"),
+      media("/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR 80X60   _   South & East View   _   Model   1 - 2   ... . copy.jpg", "Rudhra Raaga 80 by 60 residence view one"),
+      media("/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR 80X60   _   South & East View   _   Model   1 - 4   ... . copy.jpg", "Rudhra Raaga 80 by 60 residence view two"),
+      media("/images/Completed Projects/Rudhra Raaga/NAVEEN KUMAR 80X60   _   South & East View   _   Model   1 - 4   ... ..jpg", "Rudhra Raaga alternate 80 by 60 residence view"),
+    ],
+    floorPlans: [],
   },
   {
     slug: "raagam-taanam",
@@ -461,14 +601,38 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "p21-villas",
-    name: "P21 Villa Community",
+    slug: "medha",
+    name: "Medha",
+    category: "Premium Residences",
+    location: "Hyderabad, Telangana",
+    status: "Completed",
+    image: "/images/Completed Projects/Medha/001.jpg",
+    alt: "Medha completed premium residences",
+    description: "Medha is a completed premium residential project expressed through a collection of carefully developed architectural views.",
+    facts: [
+      { icon: "home", value: "Premium", label: "Residences" },
+      { icon: "location", value: "Hyderabad", label: "Telangana" },
+      { icon: "award", value: "Completed", label: "Project Status" },
+    ],
+    overview: [["Project Type", "Premium residences"], ["Location", "Hyderabad, Telangana"], ["Status", "Completed"]],
+    highlights: ["Premium residential architecture", "Multiple supplied exterior views", "Completed Rudhra project"],
+    gallery: [
+      media("/images/Completed Projects/Medha/001.jpg", "Medha architectural view one"),
+      media("/images/Completed Projects/Medha/002.jpg", "Medha architectural view two"),
+      media("/images/Completed Projects/Medha/Final_View_1_FFFF.tif", "Medha final exterior view"),
+      media("/images/Completed Projects/Medha/View_2_FFF.tif", "Medha alternate exterior view"),
+    ],
+    floorPlans: [],
+  },
+  {
+    slug: "villa-community",
+    name: "Villa Community",
     category: "Premium Villas",
     location: "Location to be announced",
     status: "Upcoming",
     image: "/images/Upcomming projects/P21/rudhra_villa_sketch.png",
-    alt: "Architectural concept sketch for the upcoming P21 villa community",
-    description: "P21 is an upcoming concept for a large premium villa community. The supplied project brief identifies a planned collection of 850 villas.",
+    alt: "Architectural concept sketch for the upcoming villa community",
+    description: "An upcoming concept for a large premium villa community. The supplied project brief identifies a planned collection of 850 villas.",
     facts: [
       { icon: "home", value: "850", label: "Planned Villas" },
       { icon: "building", value: "Premium", label: "Villa Community" },
@@ -476,18 +640,18 @@ export const projects: Project[] = [
     ],
     overview: [["Project Type", "Premium villa community"], ["Planned Villas", "850"], ["Status", "Upcoming"], ["Location", "To be announced"]],
     highlights: ["Large-scale premium villa concept", "850 villas identified in the supplied brief", "Early architectural concept stage"],
-    gallery: [media("/images/Upcomming projects/P21/rudhra_villa_sketch.png", "P21 villa concept sketch")],
+    gallery: [media("/images/Upcomming projects/P21/rudhra_villa_sketch.png", "Villa community concept sketch")],
     floorPlans: [],
   },
   {
-    slug: "p36-high-rise",
-    name: "P36 High-Rise Residences",
+    slug: "apartment-community",
+    name: "Apartment Community",
     category: "High-Rise Apartments",
     location: "Location to be announced",
     status: "Upcoming",
     image: "/images/Upcomming projects/P36/rudhra_high_rise_sketch.png",
-    alt: "Architectural concept sketch for the upcoming P36 high-rise residences",
-    description: "P36 is an upcoming high-rise residential concept. The supplied project brief identifies a planned collection of 400 apartments.",
+    alt: "Architectural concept sketch for the upcoming apartment community",
+    description: "An upcoming high-rise apartment community concept. The supplied project brief identifies a planned collection of 400 apartments.",
     facts: [
       { icon: "building", value: "400", label: "Planned Homes" },
       { icon: "building", value: "High-Rise", label: "Residential Type" },
@@ -495,13 +659,47 @@ export const projects: Project[] = [
     ],
     overview: [["Project Type", "High-rise apartments"], ["Planned Homes", "400"], ["Status", "Upcoming"], ["Location", "To be announced"]],
     highlights: ["High-rise residential concept", "400 homes identified in the supplied brief", "Early architectural concept stage"],
-    gallery: [media("/images/Upcomming projects/P36/rudhra_high_rise_sketch.png", "P36 high-rise concept sketch")],
+    gallery: [media("/images/Upcomming projects/P36/rudhra_high_rise_sketch.png", "Apartment community concept sketch")],
     floorPlans: [],
   },
 ];
 
 export const projectStatuses: ProjectStatus[] = ["Ongoing", "Completed", "Upcoming"];
 
+const completedProjectOrder = [
+  "hastina",
+  "medha",
+  "raagam-taanam",
+  "soudamnini",
+  "dhivi",
+  "bommarillu",
+  "green-lands",
+  "white-fields",
+  "altis",
+  "rudhra-raaga",
+  "bhuvi",
+  "rudhra-kuteer",
+  "rudhra-aavasa",
+  "highland",
+  "royal-village",
+  "maanya-arched",
+  "maanya-casa",
+  "maanya-heaven",
+] as const;
+
+const completedProjectRank = new Map<string, number>(
+  completedProjectOrder.map((slug, index) => [slug, index]),
+);
+
 export const getProjectBySlug = (slug: string) => projects.find((project) => project.slug === slug);
 
-export const getProjectsByStatus = (status: ProjectStatus) => projects.filter((project) => project.status === status);
+export const getProjectsByStatus = (status: ProjectStatus) => {
+  const matches = projects.filter((project) => project.status === status);
+  if (status !== "Completed") return matches;
+
+  return matches.sort(
+    (first, second) =>
+      (completedProjectRank.get(first.slug) ?? Number.MAX_SAFE_INTEGER) -
+      (completedProjectRank.get(second.slug) ?? Number.MAX_SAFE_INTEGER),
+  );
+};
