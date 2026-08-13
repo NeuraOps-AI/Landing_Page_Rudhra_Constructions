@@ -37,6 +37,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   return (
     <>
       <main className="page-section project-detail-page">
+        <Link href="/projects#projects" className="project-top-back" aria-label="Back to projects">
+          <span aria-hidden="true">←</span> Back to Projects
+        </Link>
         <section className="project-detail-hero" aria-labelledby="project-title">
           <Image src={webProjectImage(project.image)} alt={project.alt} fill sizes="(min-width: 1440px) 1320px, 94vw" className="object-cover" priority />
           <div className="project-detail-hero-shade" />
@@ -49,7 +52,6 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
         <section className="detail-intro-layout">
           <div className="detail-copy">
-            <Link href="/projects" className="back-link">← &nbsp; Back to Projects</Link>
             <p className="detail-eyebrow">{project.status} Portfolio</p>
             <h2>{project.name}</h2>
             <p className="detail-kicker">{project.category}</p>

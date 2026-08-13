@@ -26,7 +26,7 @@ export default function HomePage() {
           <span className="home-construction-edge is-right" />
         </div>
         <section className="full-video-hero" aria-labelledby="home-title">
-          <AmbientVideo src="/video/rudhra-showcase.mp4" poster="/images/rudhra-villa-poster.png" />
+          <AmbientVideo src="/video/rudhra-home-showcase.mp4" poster="/images/rudhra-villa-poster.png" />
           <div className="full-video-scrim" aria-hidden="true" />
           <div className="full-video-content">
             <p>Rudhra Constructions</p>
