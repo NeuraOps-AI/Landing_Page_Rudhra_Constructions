@@ -1,19 +1,19 @@
 import type { ComponentType, SVGProps } from "react";
-import { BuildingIcon, HomeIcon, PeopleIcon, PlanIcon } from "./icons";
+import { BuildingIcon, HomeIcon, PlanIcon } from "./icons";
 import { PrimaryCTA } from "./PrimaryCTA";
+import { MetricCounter } from "./site/MetricCounter";
 
 type Metric = {
-  value: string;
+  value: number;
   label: string;
   Icon: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
 // Editable content values for the trust section.
 export const trustMetrics: Metric[] = [
-  { value: "25+", label: "Years of Excellence", Icon: BuildingIcon },
-  { value: "150+", label: "Homes Delivered", Icon: HomeIcon },
-  { value: "12+", label: "Premium Projects", Icon: PlanIcon },
-  { value: "350+", label: "Happy Families", Icon: PeopleIcon },
+  { value: 23, label: "Years of Excellence", Icon: BuildingIcon },
+  { value: 1500, label: "Homes Delivered", Icon: HomeIcon },
+  { value: 30, label: "Premium Projects", Icon: PlanIcon },
 ];
 
 export function TrustMetrics({ metrics = trustMetrics }: { metrics?: Metric[] }) {
@@ -28,7 +28,7 @@ export function TrustMetrics({ metrics = trustMetrics }: { metrics?: Metric[] })
           <span className="h-px w-9 bg-white/45 sm:w-16" aria-hidden="true" />
         </div>
 
-        <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4 lg:gap-y-0">
+        <dl className="grid grid-cols-1 gap-y-8 sm:grid-cols-3 sm:gap-y-0">
           {metrics.map(({ value, label, Icon }, index) => (
             <div
               key={label}
@@ -38,7 +38,7 @@ export function TrustMetrics({ metrics = trustMetrics }: { metrics?: Metric[] })
             >
               <Icon className="mb-3 size-10 shrink-0 text-white/90 [filter:drop-shadow(0_2px_8px_rgba(12,52,91,0.2))] sm:size-12 lg:mb-0" />
               <div>
-                <dt className="font-serif text-[32px] leading-none text-white [text-shadow:0_2px_10px_rgba(10,48,85,0.24)] sm:text-[40px]">{value}</dt>
+                <MetricCounter value={value} />
                 <dd className="mt-2 max-w-[125px] text-[10px] font-semibold uppercase leading-[1.55] tracking-[0.06em] text-[#102b4c] sm:text-[12px]">
                   {label}
                 </dd>

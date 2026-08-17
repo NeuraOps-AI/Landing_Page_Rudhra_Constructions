@@ -1,0 +1,49 @@
+DirectoryIndex index.html
+Options -Indexes
+
+RewriteEngine On
+
+# Legacy company and resource URLs
+RewriteRule ^about-us/?$ /about/ [R=301,L,NE]
+RewriteRule ^contact-us/?$ /contact/ [R=301,L,NE]
+RewriteRule ^contacts-us/?$ /contact/ [R=301,L,NE]
+RewriteRule ^media/?$ /news-blog/ [R=301,L,NE]
+RewriteRule ^news/?$ /news-blog/ [R=301,L,NE]
+RewriteRule ^blog/?$ /news-blog/ [R=301,L,NE]
+
+# Legacy project catalogue URLs
+RewriteRule ^ongoing-projects/?$ /projects/#ongoing [R=301,L,NE]
+RewriteRule ^completed-projects/?$ /projects/#completed [R=301,L,NE]
+RewriteRule ^upcoming-projects/?$ /projects/#upcoming [R=301,L,NE]
+
+# Legacy project detail URLs
+RewriteRule ^park-avenue/?$ /projects/park-avenue/ [R=301,L,NE]
+RewriteRule ^royal-village-2/?$ /projects/royal-village-2/ [R=301,L,NE]
+RewriteRule ^royal-village/?$ /projects/royal-village/ [R=301,L,NE]
+RewriteRule ^rudhra-estates/?$ /projects/rudhra-estates/ [R=301,L,NE]
+RewriteRule ^rudhra-empire/?$ /projects/rudhra-empire/ [R=301,L,NE]
+RewriteRule ^empire/?$ /projects/rudhra-empire/ [R=301,L,NE]
+RewriteRule ^rudhras-bhuvi/?$ /projects/bhuvi/ [R=301,L,NE]
+RewriteRule ^bhuvi/?$ /projects/bhuvi/ [R=301,L,NE]
+RewriteRule ^hasthina/?$ /projects/hastina/ [R=301,L,NE]
+RewriteRule ^hastina/?$ /projects/hastina/ [R=301,L,NE]
+RewriteRule ^bommarillu/?$ /projects/bommarillu/ [R=301,L,NE]
+RewriteRule ^green-lands/?$ /projects/green-lands/ [R=301,L,NE]
+RewriteRule ^white-fields/?$ /projects/white-fields/ [R=301,L,NE]
+RewriteRule ^rudhras-high-land/?$ /projects/highland/ [R=301,L,NE]
+RewriteRule ^highland/?$ /projects/highland/ [R=301,L,NE]
+RewriteRule ^rudhras-dhivi/?$ /projects/dhivi/ [R=301,L,NE]
+RewriteRule ^dhivi/?$ /projects/dhivi/ [R=301,L,NE]
+RewriteRule ^rudhras-altis/?$ /projects/altis/ [R=301,L,NE]
+RewriteRule ^altis/?$ /projects/altis/ [R=301,L,NE]
+RewriteRule ^rudhras-medha/?$ /projects/medha/ [R=301,L,NE]
+RewriteRule ^medha/?$ /projects/medha/ [R=301,L,NE]
+RewriteRule ^raagam-and-taanam/?$ /projects/raagam-taanam/ [R=301,L,NE]
+RewriteRule ^raagam-taanam/?$ /projects/raagam-taanam/ [R=301,L,NE]
+RewriteRule ^soudhamini/?$ /projects/soudamnini/ [R=301,L,NE]
+
+# Retired legacy projects now lead to the completed portfolio.
+RewriteRule ^rudhras-kuteer/?$ /projects/#completed [R=301,L,NE]
+RewriteRule ^rudhras-aavaasa/?$ /projects/#completed [R=301,L,NE]
+
+ErrorDocument 404 /404.html

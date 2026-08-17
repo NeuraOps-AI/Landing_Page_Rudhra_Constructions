@@ -6,14 +6,14 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { LineIcon } from "@/components/site/LineIcon";
 import { LifestyleCarousel } from "@/components/site/LifestyleCarousel";
 import { ProjectsExplorer } from "@/components/site/ProjectsExplorer";
+import { MetricCounter } from "@/components/site/MetricCounter";
 import { getProjectsByStatus, webProjectImage } from "@/data/projects";
 
 const metrics = [
-  ["building", "25+", "Years of Excellence"],
-  ["home", "150+", "Homes Delivered"],
-  ["award", "12+", "Premium Projects"],
-  ["people", "350+", "Happy Families"],
-];
+  ["building", 23, "Years of Excellence"],
+  ["home", 1500, "Homes Delivered"],
+  ["award", 30, "Premium Projects"],
+] as const;
 
 export default function HomePage() {
   const featuredProjects = getProjectsByStatus("Ongoing").slice(0, 3);
@@ -48,7 +48,7 @@ export default function HomePage() {
             <div className="home-metrics-title"><span />Built on Trust. Driven by Purpose.<span /></div>
             <dl>
               {metrics.map(([icon, value, label]) => (
-                <div key={label}><LineIcon name={icon} /><div><dt>{value}</dt><dd>{label}</dd></div></div>
+                <div key={label}><LineIcon name={icon} /><div><MetricCounter value={value} /><dd>{label}</dd></div></div>
               ))}
             </dl>
             <Link href="/projects" className="primary-button home-cta">Explore Rudhra <span>↗</span></Link>

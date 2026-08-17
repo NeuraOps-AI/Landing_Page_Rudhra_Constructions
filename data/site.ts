@@ -2,7 +2,7 @@ export const benefits = [
   {
     icon: "handshake",
     title: "Trusted Expertise",
-    description: "25+ years of experience in architectural design and construction.",
+    description: "23+ years of experience in architectural design and construction.",
   },
   {
     icon: "home",

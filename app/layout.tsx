@@ -8,9 +8,10 @@ import { getProjectsByStatus } from "@/data/projects";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.rudhraconstructions.com"),
   title: "Rudhra Constructions | Built on Trust",
   description:
-    "Premium homes shaped by thoughtful design, enduring quality, and more than 25 years of trust.",
+    "Premium homes shaped by thoughtful design, enduring quality, and more than 23 years of trust.",
   icons: {
     icon: [{ url: "/images/logo/rudhra-r-mark.png", type: "image/png" }],
     shortcut: "/images/logo/rudhra-r-mark.png",

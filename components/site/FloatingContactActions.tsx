@@ -5,7 +5,7 @@ import { LineIcon } from "./LineIcon";
 
 const primaryPhone = "+918309475836";
 const whatsappMessage = "Hello Rudhra Constructions, I would like to know more about your projects.";
-const instagramUrl = "https://www.instagram.com/rudhraconstructions/";
+const instagramUrl = "https://www.instagram.com/rudhraconstructionsofficial?igsh=cXhyamQ4d2lpb2Jl";
 
 export function FloatingContactActions() {
   return (

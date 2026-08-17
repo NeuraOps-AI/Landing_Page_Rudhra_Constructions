@@ -4,10 +4,17 @@ import { BenefitStrip } from "./BenefitStrip";
 import { LineIcon } from "./LineIcon";
 
 const columns = [
-  { title: "Company", links: [["About Us", "/about"], ["Why Rudhra", "/#why-rudhra"], ["Our Team", "/about#team"], ["Careers", "/contact"], ["News & Media", "/about"]] },
+  { title: "Company", links: [["About Us", "/about"], ["Why Rudhra", "/#why-rudhra"], ["Our Team", "/about#team"], ["Careers", "/contact"], ["News & Blog", "/news-blog"]] },
   { title: "Projects", links: [["Ongoing Projects", "/projects"], ["Completed Projects", "/projects"], ["Upcoming Projects", "/projects"], ["Residential Villas", "/projects/royal-village-2"], ["Commercial Spaces", "/projects/rudhra-empire"], ["Gated Communities", "/projects/park-avenue"]] },
-  { title: "Services", links: [["Architecture Design", "/contact"], ["Interior Design", "/contact"], ["Construction", "/contact"], ["Project Management", "/contact"], ["Turnkey Solutions", "/contact"], ["Consultation", "/contact"]] },
-  { title: "Resources", links: [["Project Portfolio", "/projects"], ["Gallery", "/projects/park-avenue#gallery"], ["FAQs", "/contact"], ["Blog", "/about"], ["Policies", "/contact"]] },
+  { title: "Resources", links: [["Project Portfolio", "/projects"], ["Gallery", "/projects/park-avenue#gallery"], ["FAQs", "/contact"], ["Policies", "/contact"]] },
+];
+
+const socialLinks = [
+  { name: "Instagram", href: "https://www.instagram.com/rudhraconstructionsofficial?igsh=cXhyamQ4d2lpb2Jl" },
+  { name: "X", href: "#" },
+  { name: "Facebook", href: "#" },
+  { name: "LinkedIn", href: "#" },
+  { name: "YouTube", href: "#" },
 ];
 
 export function SiteFooter({ showBenefits = true }: { showBenefits?: boolean }) {
@@ -36,7 +43,17 @@ export function SiteFooter({ showBenefits = true }: { showBenefits?: boolean }) 
           <p>© 2026 Rudhra Constructions Pvt. Ltd.<br />All Rights Reserved.</p>
           <div className="footer-socials" aria-label="Social media links">
             <span>Follow Us</span>
-            {["Instagram", "X", "Facebook", "LinkedIn", "YouTube"].map((name) => <a key={name} href="#" aria-label={name}>{name.slice(0, 1)}</a>)}
+            {socialLinks.map(({ name, href }) => (
+              <a
+                key={name}
+                href={href}
+                aria-label={name}
+                target={href === "#" ? undefined : "_blank"}
+                rel={href === "#" ? undefined : "noreferrer"}
+              >
+                {name.slice(0, 1)}
+              </a>
+            ))}
           </div>
         </div>
       </div>
