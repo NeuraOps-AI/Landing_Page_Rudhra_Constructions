@@ -2,42 +2,41 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { OPEN_LEAD_POPUP_EVENT } from "@/lib/lead-popup";
+import { createCrmLead } from "@/lib/crm";
+import { useCrmProjects } from "./CrmProjectsProvider";
 import { LineIcon } from "./LineIcon";
 
-type LeadProject = {
-  name: string;
-  status: "Ongoing" | "Upcoming";
-};
-
-type LeadCapturePopupProps = {
-  projects: LeadProject[];
-};
-
-export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
-  const ongoingProjects = projects.filter((project) => project.status === "Ongoing");
-  const firstOngoingProject = ongoingProjects[0]?.name ?? "";
+export function LeadCapturePopup() {
+  const { projects } = useCrmProjects();
+  const firstProjectId = projects[0]?.id ?? "";
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [interest, setInterest] = useState(() => firstOngoingProject);
+  const [projectId, setProjectId] = useState(() => firstProjectId);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [interestError, setInterestError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const firstPromptShown = useRef(false);
   const footerPromptShown = useRef(false);
   const submittedRef = useRef(false);
   const firstProjectRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const activeProjectId = projects.some((project) => project.id === projectId) ? projectId : firstProjectId;
+  const selectedProject = projects.find((project) => project.id === activeProjectId);
 
   useEffect(() => {
     const openFromAction = () => {
       submittedRef.current = false;
       setStep(0);
       setSubmitted(false);
-      setInterest(firstOngoingProject);
+      setProjectId(firstProjectId);
       setName("");
       setPhone("");
       setInterestError(false);
+      setSubmitting(false);
+      setSubmitError("");
       setOpen(true);
     };
     const openFromHash = () => {
@@ -50,7 +49,7 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
       document.removeEventListener(OPEN_LEAD_POPUP_EVENT, openFromAction);
       window.removeEventListener("hashchange", openFromHash);
     };
-  }, [firstOngoingProject]);
+  }, [firstProjectId]);
 
   useEffect(() => {
     const afterFeaturedProjects = document.querySelector(".lifestyle-carousel-section");
@@ -121,11 +120,12 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
     }
   };
 
-  const submitStep = (event: FormEvent<HTMLFormElement>) => {
+  const submitStep = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSubmitError("");
 
     if (step === 0) {
-      const missingInterest = !interest;
+      const missingInterest = !activeProjectId;
       setInterestError(missingInterest);
       if (missingInterest) return;
       setStep(1);
@@ -137,8 +137,17 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
       form.reportValidity();
       return;
     }
-    submittedRef.current = true;
-    setSubmitted(true);
+
+    setSubmitting(true);
+    try {
+      await createCrmLead({ name, phone, projectId: activeProjectId });
+      submittedRef.current = true;
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Unable to submit enquiry. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (!open) return <span className="lead-popup-mount" aria-hidden="true" hidden />;
@@ -159,7 +168,7 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
               <span aria-live="polite">Step {step + 1} of 2</span>
               <h2 id="lead-popup-title">{step === 0 ? "Choose Your Project" : "Let’s Connect"}</h2>
               <div>{step === 0 ? "Select an ongoing Rudhra project." : "Share your details and our project team will contact you shortly."}</div>
-              {step === 1 ? <strong className="lead-selection-summary">{interest}</strong> : null}
+              {step === 1 ? <strong className="lead-selection-summary">{selectedProject?.name}</strong> : null}
             </header>
 
             <form className="lead-popup-form" onSubmit={submitStep}>
@@ -172,15 +181,15 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
                       aria-labelledby="lead-project-label"
                       aria-describedby={interestError ? "lead-project-error" : undefined}
                     >
-                      {ongoingProjects.map((project, index) => (
-                        <label key={project.name} className={interest === project.name ? "is-selected" : ""}>
+                      {projects.map((project, index) => (
+                        <label key={project.id} className={activeProjectId === project.id ? "is-selected" : ""}>
                           <input
                             ref={index === 0 ? firstProjectRef : undefined}
                             type="radio"
                             name="lead-project"
-                            value={project.name}
-                            checked={interest === project.name}
-                            onChange={() => { setInterest(project.name); setInterestError(false); }}
+                            value={project.id}
+                            checked={activeProjectId === project.id}
+                            onChange={() => { setProjectId(project.id); setInterestError(false); }}
                           />
                           <span className="lead-radio-mark" aria-hidden="true"><i /></span>
                           <strong>{project.name}</strong>
@@ -222,9 +231,10 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
               )}
 
               <div className="lead-popup-actions">
-                <button type="submit" className="lead-popup-next">{step === 0 ? "Continue" : "Request a Callback"}<LineIcon name="arrow-right" /></button>
-                {step === 1 ? <button type="button" className="lead-popup-back" onClick={() => setStep(0)}><LineIcon name="arrow-left" /> Back</button> : null}
+                <button type="submit" className="lead-popup-next" disabled={submitting}>{step === 0 ? "Continue" : submitting ? "Submitting…" : "Request a Callback"}<LineIcon name="arrow-right" /></button>
+                {step === 1 ? <button type="button" className="lead-popup-back" onClick={() => setStep(0)} disabled={submitting}><LineIcon name="arrow-left" /> Back</button> : null}
               </div>
+              {submitError ? <p className="form-status is-error" role="alert">{submitError}</p> : null}
             </form>
             <p className="lead-popup-privacy"><LineIcon name="lead-shield" />Your information is secure with us.</p>
           </>
@@ -233,7 +243,7 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
             <span><LineIcon name="lead-shield" /></span>
             <p>Callback Requested</p>
             <h2 id="lead-popup-title">Thank you, {name.split(" ")[0]}.</h2>
-            <div>Our team will contact you shortly about <strong>{interest}</strong>.</div>
+            <div>Our team will contact you shortly about <strong>{selectedProject?.name}</strong>.</div>
             <button type="button" className="lead-popup-next" onClick={close}>Continue Exploring <LineIcon name="arrow-right" /></button>
           </div>
         )}

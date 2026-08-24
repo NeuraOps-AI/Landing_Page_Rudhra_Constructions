@@ -72,7 +72,7 @@ export const projects: Project[] = [
     alt: "Aerial architectural view of Park Avenue premium villas",
     description: "Park Avenue is an ongoing community of 138 triplex premium villas in Bowrampet, presented through a comprehensive collection of arrival, garden, street and aerial views.",
     facts: [
-      { icon: "home", value: "138", label: "Triplex Villas" },
+      { icon: "home", value: "238", label: "Triplex Villas" },
       { icon: "building", value: "Premium", label: "Villa Community" },
       { icon: "location", value: "Bowrampet", label: "Hyderabad" },
       { icon: "clock", value: "Ongoing", label: "Project Status" },

@@ -118,7 +118,7 @@ export function PremiumSelect({ name, value, options, placeholder, invalid = fal
           </button>
         ))}
       </div>
-      {invalid && <p id={errorId} className="premium-select-error">Please select a project interest.</p>}
+      {invalid && <p id={errorId} className="premium-select-error">Please select a project.</p>}
     </div>
   );
 }
