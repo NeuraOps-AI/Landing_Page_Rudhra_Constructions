@@ -17,7 +17,7 @@ const revealGroups: RevealGroup[] = [
   { selector: ".section-heading > *", stagger: 65 },
   { selector: ".featured-card, .project-card", direction: "scale", stagger: 75 },
   { selector: ".lifestyle-carousel-heading > *, .lifestyle-carousel-card", stagger: 80 },
-  { selector: ".news-video-heading > *, .news-video-card", stagger: 85 },
+  { selector: ".news-video-heading > *, .news-campaign-card, .news-video-card", stagger: 85 },
   { selector: ".project-tabs > *, .contact-detail-list > *, .benefit-item", stagger: 65 },
   { selector: ".contact-form-card, .project-enquiry-card, .about-image", direction: "right" },
   { selector: ".contact-lead, .about-intro > div:first-child > p, .about-value-row > *, .purpose-panel > *", stagger: 70 },

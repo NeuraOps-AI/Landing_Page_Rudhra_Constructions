@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { OPEN_LEAD_POPUP_EVENT } from "@/lib/lead-popup";
 import { LineIcon } from "./LineIcon";
 
@@ -13,40 +13,44 @@ type LeadCapturePopupProps = {
   projects: LeadProject[];
 };
 
-const steps = [
-  { icon: "user", title: "What’s your full name?", description: "This helps us personalize your experience." },
-  { icon: "phone", title: "What’s your phone number?", description: "Our project team will connect with you shortly." },
-  { icon: "building", title: "Which project interests you?", description: "Choose from our ongoing and upcoming developments." },
-];
-
 export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
+  const ongoingProjects = projects.filter((project) => project.status === "Ongoing");
+  const firstOngoingProject = ongoingProjects[0]?.name ?? "";
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [interest, setInterest] = useState(() => firstOngoingProject);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [interest, setInterest] = useState("");
   const [interestError, setInterestError] = useState(false);
   const firstPromptShown = useRef(false);
   const footerPromptShown = useRef(false);
   const submittedRef = useRef(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const fieldRef = useRef<HTMLInputElement>(null);
+  const firstProjectRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const openFromAction = () => {
       submittedRef.current = false;
       setStep(0);
       setSubmitted(false);
+      setInterest(firstOngoingProject);
       setName("");
       setPhone("");
-      setInterest("");
       setInterestError(false);
       setOpen(true);
     };
-    window.addEventListener(OPEN_LEAD_POPUP_EVENT, openFromAction);
-    return () => window.removeEventListener(OPEN_LEAD_POPUP_EVENT, openFromAction);
-  }, []);
+    const openFromHash = () => {
+      if (window.location.hash === "#enquire") openFromAction();
+    };
+    document.addEventListener(OPEN_LEAD_POPUP_EVENT, openFromAction);
+    window.addEventListener("hashchange", openFromHash);
+    openFromHash();
+    return () => {
+      document.removeEventListener(OPEN_LEAD_POPUP_EVENT, openFromAction);
+      window.removeEventListener("hashchange", openFromHash);
+    };
+  }, [firstOngoingProject]);
 
   useEffect(() => {
     const afterFeaturedProjects = document.querySelector(".lifestyle-carousel-section");
@@ -85,14 +89,17 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
-    const focusFrame = window.requestAnimationFrame(() => fieldRef.current?.focus());
     const handleKeyboard = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        if (window.location.hash === "#enquire") {
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+        }
+      }
     };
-
     document.addEventListener("keydown", handleKeyboard);
+
     return () => {
-      window.cancelAnimationFrame(focusFrame);
       document.removeEventListener("keydown", handleKeyboard);
       previouslyFocused?.focus();
     };
@@ -100,120 +107,134 @@ export function LeadCapturePopup({ projects }: LeadCapturePopupProps) {
 
   useEffect(() => {
     if (!open || submitted) return;
-    const frame = window.requestAnimationFrame(() => fieldRef.current?.focus());
+    const frame = window.requestAnimationFrame(() => {
+      if (step === 0) firstProjectRef.current?.focus();
+      else nameRef.current?.focus();
+    });
     return () => window.cancelAnimationFrame(frame);
   }, [open, step, submitted]);
 
-  const close = () => setOpen(false);
+  const close = () => {
+    setOpen(false);
+    if (window.location.hash === "#enquire") {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  };
 
   const submitStep = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (step === 0) {
+      const missingInterest = !interest;
+      setInterestError(missingInterest);
+      if (missingInterest) return;
+      setStep(1);
+      return;
+    }
+
     const form = event.currentTarget;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    if (step === 2 && !interest) {
-      setInterestError(true);
-      return;
-    }
-    if (step < 2) setStep((value) => value + 1);
-    else {
-      submittedRef.current = true;
-      setSubmitted(true);
-    }
+    submittedRef.current = true;
+    setSubmitted(true);
   };
 
-  const handleProjectKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "ArrowUp" && event.key !== "ArrowLeft") return;
-    event.preventDefault();
-    const direction = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : -1;
-    const nextIndex = (index + direction + projects.length) % projects.length;
-    setInterest(projects[nextIndex].name);
-    const radios = dialogRef.current?.querySelectorAll<HTMLInputElement>('input[name="lead-project"]');
-    radios?.[nextIndex]?.focus();
-  };
-
-  if (!open) return null;
-
-  const currentStep = steps[step];
+  if (!open) return <span className="lead-popup-mount" aria-hidden="true" hidden />;
 
   return (
     <div className="lead-popup-backdrop">
-      <div ref={dialogRef} className="lead-popup-dialog" role="dialog" aria-modal="false" aria-labelledby="lead-popup-title">
-        <button type="button" className="lead-popup-close" onClick={close} aria-label="Close enquiry popup">×</button>
+      <div className="lead-popup-dialog" role="dialog" aria-modal="false" aria-labelledby="lead-popup-title">
+        <button type="button" className="lead-popup-close" onClick={close} aria-label="Close enquiry popup"><LineIcon name="close" /></button>
 
         {!submitted ? (
           <>
             <header className="lead-popup-header">
               <p>Rudhra Constructions</p>
-              <h2 id="lead-popup-title">Let’s Get Started</h2>
-              <span aria-live="polite">Step {step + 1} of {steps.length}</span>
+              <div className="lead-popup-progress" aria-hidden="true">
+                <span className="is-active" />
+                <span className={step === 1 ? "is-active" : ""} />
+              </div>
+              <span aria-live="polite">Step {step + 1} of 2</span>
+              <h2 id="lead-popup-title">{step === 0 ? "Choose Your Project" : "Let’s Connect"}</h2>
+              <div>{step === 0 ? "Select an ongoing Rudhra project." : "Share your details and our project team will contact you shortly."}</div>
+              {step === 1 ? <strong className="lead-selection-summary">{interest}</strong> : null}
             </header>
 
-            <div className="lead-popup-progress" aria-hidden="true">
-              <i style={{ width: `${(step / (steps.length - 1)) * 100}%` }} />
-              {steps.map((item, index) => <span key={item.title} className={index <= step ? "is-active" : ""} />)}
-            </div>
-
             <form className="lead-popup-form" onSubmit={submitStep}>
-              <div className="lead-popup-step-icon"><LineIcon name={currentStep.icon} /></div>
-              <div className="lead-popup-copy">
-                <h3>{currentStep.title}</h3>
-                <p>{currentStep.description}</p>
-              </div>
+              {step === 0 ? (
+                <div className="lead-project-select lead-project-select-only">
+                    <label id="lead-project-label">Select an ongoing project</label>
+                    <div
+                      className={`lead-project-radio-grid ${interestError ? "is-invalid" : ""}`}
+                      role="radiogroup"
+                      aria-labelledby="lead-project-label"
+                      aria-describedby={interestError ? "lead-project-error" : undefined}
+                    >
+                      {ongoingProjects.map((project, index) => (
+                        <label key={project.name} className={interest === project.name ? "is-selected" : ""}>
+                          <input
+                            ref={index === 0 ? firstProjectRef : undefined}
+                            type="radio"
+                            name="lead-project"
+                            value={project.name}
+                            checked={interest === project.name}
+                            onChange={() => { setInterest(project.name); setInterestError(false); }}
+                          />
+                          <span className="lead-radio-mark" aria-hidden="true"><i /></span>
+                          <strong>{project.name}</strong>
+                        </label>
+                      ))}
+                    </div>
+                    {interestError ? <small id="lead-project-error">Please select an ongoing project.</small> : null}
+                </div>
+              ) : (
+                <div className="lead-contact-fields">
+                  <label className="lead-field-group">
+                    <span>Full name</span>
+                    <span className="lead-popup-input">
+                      <LineIcon name="lead-user" />
+                      <input ref={nameRef} name="lead-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Enter your full name" autoComplete="name" minLength={2} required />
+                    </span>
+                  </label>
 
-              {step === 0 && (
-                <label className="lead-popup-input">
-                  <LineIcon name="user" />
-                  <span className="sr-only">Full name</span>
-                  <input ref={fieldRef} name="lead-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Enter your full name" autoComplete="name" minLength={2} required />
-                </label>
-              )}
-
-              {step === 1 && (
-                <label className="lead-popup-input">
-                  <LineIcon name="phone" />
-                  <span className="sr-only">Phone number</span>
-                  <input ref={fieldRef} name="lead-phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Enter your phone number" autoComplete="tel" inputMode="tel" pattern="[0-9+() -]{10,18}" title="Enter a valid phone number" required />
-                </label>
-              )}
-
-              {step === 2 && (
-                <div className="lead-project-options" role="radiogroup" aria-label="Interested project" aria-describedby={interestError ? "lead-project-error" : undefined}>
-                  {projects.map((project, index) => (
-                    <label key={`${project.status}-${project.name}`} className={interest === project.name ? "is-selected" : ""}>
+                  <label className="lead-field-group">
+                    <span>Phone number</span>
+                    <span className="lead-popup-input lead-phone-input">
+                      <LineIcon name="lead-phone" />
+                      <b>+91</b>
                       <input
-                        ref={index === 0 ? fieldRef : undefined}
-                        type="radio"
-                        name="lead-project"
-                        value={project.name}
-                        checked={interest === project.name}
-                        onChange={() => { setInterest(project.name); setInterestError(false); }}
-                        onKeyDown={(event) => handleProjectKeyDown(event, index)}
+                        name="lead-phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(event) => setPhone(event.target.value.replace(/\D/g, "").slice(0, 10))}
+                        placeholder="Enter your phone number"
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
+                        title="Enter a valid 10-digit phone number"
+                        required
                       />
-                      <span><strong>{project.name}</strong><small>{project.status} project</small></span>
-                      <i aria-hidden="true">✓</i>
-                    </label>
-                  ))}
-                  {interestError && <p id="lead-project-error">Please select a project.</p>}
+                    </span>
+                  </label>
                 </div>
               )}
 
               <div className="lead-popup-actions">
-                {step > 0 && <button type="button" className="lead-popup-back" onClick={() => setStep((value) => value - 1)}>Back</button>}
-                <button type="submit" className="lead-popup-next">{step === 2 ? "Send Enquiry" : "Next"}<span aria-hidden="true">→</span></button>
+                <button type="submit" className="lead-popup-next">{step === 0 ? "Continue" : "Request a Callback"}<LineIcon name="arrow-right" /></button>
+                {step === 1 ? <button type="button" className="lead-popup-back" onClick={() => setStep(0)}><LineIcon name="arrow-left" /> Back</button> : null}
               </div>
             </form>
-            <p className="lead-popup-privacy"><LineIcon name="shield" />Your information is safe with us.</p>
+            <p className="lead-popup-privacy"><LineIcon name="lead-shield" />Your information is secure with us.</p>
           </>
         ) : (
           <div className="lead-popup-success" role="status">
-            <span><LineIcon name="shield" /></span>
-            <p>Enquiry Received</p>
+            <span><LineIcon name="lead-shield" /></span>
+            <p>Callback Requested</p>
             <h2 id="lead-popup-title">Thank you, {name.split(" ")[0]}.</h2>
             <div>Our team will contact you shortly about <strong>{interest}</strong>.</div>
-            <button type="button" className="lead-popup-next" onClick={close}>Continue Exploring <span aria-hidden="true">→</span></button>
+            <button type="button" className="lead-popup-next" onClick={close}>Continue Exploring <LineIcon name="arrow-right" /></button>
           </div>
         )}
       </div>

@@ -7,6 +7,7 @@ import { LineIcon } from "@/components/site/LineIcon";
 import { LifestyleCarousel } from "@/components/site/LifestyleCarousel";
 import { ProjectsExplorer } from "@/components/site/ProjectsExplorer";
 import { MetricCounter } from "@/components/site/MetricCounter";
+import { HomeCampaignBanner } from "@/components/site/HomeCampaignBanner";
 import { getProjectsByStatus, webProjectImage } from "@/data/projects";
 
 const metrics = [
@@ -20,13 +21,14 @@ export default function HomePage() {
 
   return (
     <>
+      <HomeCampaignBanner />
       <main className="home-page-surface">
         <div className="home-background-gallery" aria-hidden="true">
           <span className="home-construction-edge is-left" />
           <span className="home-construction-edge is-right" />
         </div>
         <section className="full-video-hero" aria-labelledby="home-title">
-          <AmbientVideo src="/video/rudhra-home-showcase.mp4" poster="/images/rudhra-villa-poster.png" />
+          <AmbientVideo src="/video/rudhra-home-showcase.mp4" poster="/images/rudhra-villa-poster.png" waitForCampaign />
           <div className="full-video-scrim" aria-hidden="true" />
           <div className="full-video-content">
             <p>Rudhra Constructions</p>

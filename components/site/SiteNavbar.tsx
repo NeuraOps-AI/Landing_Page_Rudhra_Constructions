@@ -9,7 +9,8 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "About Us", href: "/about" },
-  { label: "Why Rudhra", href: "/#why-rudhra" },
+  { label: "News & Blog", href: "/news-blog" },
+  { label: "Jobs", href: "/jobs" },
   { label: "Contact Us", href: "/contact" },
 ];
 

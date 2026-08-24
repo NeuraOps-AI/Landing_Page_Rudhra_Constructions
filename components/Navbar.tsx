@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const navigation = [
-  { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
-  { label: "About Us", href: "#about" },
-  { label: "Why Rudhra", href: "#why-rudhra" },
-  { label: "Contact Us", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "About Us", href: "/about" },
+  { label: "News & Blog", href: "/news-blog" },
+  { label: "Jobs", href: "/jobs" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export function Navbar() {

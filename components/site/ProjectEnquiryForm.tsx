@@ -30,7 +30,7 @@ export function ProjectEnquiryForm({ projectName }: ProjectEnquiryFormProps) {
       <label className="items-start"><LineIcon name="message" /><span><small>Your Message</small><textarea name="message" placeholder={`I would like to know more about ${projectName}.`} rows={3} /></span></label>
       <button className="primary-button" type="submit">Send Enquiry <LineIcon name="send" /></button>
       <div className="enquiry-or"><span>or</span></div>
-      <a className="whatsapp-link" href="https://wa.me/918309475836">Chat with us on WhatsApp <strong>WA</strong></a>
+      <a className="whatsapp-link" href="https://wa.me/918309475836">Chat with us on WhatsApp <span aria-hidden="true"><LineIcon name="whatsapp" /></span></a>
       <p className={`form-success ${sent ? "is-visible" : ""}`} role="status">Enquiry received. We’ll contact you shortly.</p>
     </form>
   );

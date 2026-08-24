@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { type TouchEvent, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { webProjectImage, type ProjectMedia } from "@/data/projects";
 
 type ProjectMediaGalleryProps = {
@@ -18,7 +19,8 @@ const isFormControl = (target: EventTarget | null) => {
 export function ProjectMediaGallery({ images, label, contain = false }: ProjectMediaGalleryProps) {
   const [active, setActive] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
-  const touchStart = useRef<number | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const touchGestureIsPinch = useRef(false);
 
   const previous = () => setActive((value) => (value - 1 + images.length) % images.length);
   const next = () => setActive((value) => (value + 1) % images.length);
@@ -43,16 +45,37 @@ export function ProjectMediaGallery({ images, label, contain = false }: ProjectM
     return () => window.removeEventListener("keydown", handleKeyboard);
   });
 
-  const handleTouchStart = (clientX: number) => {
-    touchStart.current = clientX;
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+    if (event.touches.length > 1) {
+      touchGestureIsPinch.current = true;
+      touchStart.current = null;
+      return;
+    }
+    const touch = event.touches[0];
+    touchStart.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
   };
 
-  const handleTouchEnd = (clientX: number) => {
-    if (touchStart.current === null) return;
-    const distance = clientX - touchStart.current;
+  const handleTouchMove = (event: TouchEvent<HTMLElement>) => {
+    if (event.touches.length > 1) {
+      touchGestureIsPinch.current = true;
+      touchStart.current = null;
+    }
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    if (touchGestureIsPinch.current) {
+      touchStart.current = null;
+      if (event.touches.length === 0) touchGestureIsPinch.current = false;
+      return;
+    }
+    if (event.touches.length > 0 || touchStart.current === null) return;
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    const distanceX = touch.clientX - touchStart.current.x;
+    const distanceY = touch.clientY - touchStart.current.y;
     touchStart.current = null;
-    if (Math.abs(distance) < 45) return;
-    if (distance > 0) previous();
+    if (Math.abs(distanceX) < 54 || Math.abs(distanceX) <= Math.abs(distanceY) * 1.25) return;
+    if (distanceX > 0) previous();
     else next();
   };
 
@@ -77,8 +100,9 @@ export function ProjectMediaGallery({ images, label, contain = false }: ProjectM
             next();
           }
         }}
-        onTouchStart={(event) => handleTouchStart(event.changedTouches[0].clientX)}
-        onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <div className="project-media-stage">
           <button type="button" className="project-media-open" onClick={() => setFullscreen(true)} aria-label={`Open ${current.alt} in fullscreen`}>
@@ -113,14 +137,15 @@ export function ProjectMediaGallery({ images, label, contain = false }: ProjectM
         )}
       </div>
 
-      {fullscreen && (
+      {fullscreen ? createPortal(
         <div
           className="project-media-lightbox"
           role="dialog"
           aria-modal="true"
           aria-label={`${label} fullscreen viewer`}
-          onTouchStart={(event) => handleTouchStart(event.changedTouches[0].clientX)}
-          onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <div className="project-media-lightbox-image">
             <Image src={webProjectImage(current.src)} alt={current.alt} fill sizes="100vw" className="object-contain" priority />
@@ -133,8 +158,9 @@ export function ProjectMediaGallery({ images, label, contain = false }: ProjectM
               <button type="button" className="project-media-lightbox-arrow right" onClick={next} aria-label="Next image">›</button>
             </>
           )}
-        </div>
-      )}
+        </div>,
+        document.body,
+      ) : null}
     </>
   );
 }

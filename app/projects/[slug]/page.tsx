@@ -108,9 +108,28 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         </section>
 
         <section className="detail-contact-strip" aria-label="Contact Rudhra Constructions">
-          <a href="tel:+918309475836"><LineIcon name="phone" /><span>+91 83094 75836<small>Call Us</small></span></a>
-          <a href="mailto:sales@rudhraconstructions.com"><LineIcon name="mail" /><span>sales@rudhraconstructions.com<small>Email Us</small></span></a>
-          <a href="https://wa.me/918309475836"><strong>WA</strong><span>Chat on WhatsApp</span></a>
+          <a href="tel:+918309475836" aria-label="Call Rudhra Constructions on +91 83094 75836">
+            <LineIcon name="phone" />
+            <span>
+              +91 83094 75836
+              <small>Call Us</small>
+            </span>
+          </a>
+          <a href="tel:+919949836096" aria-label="Call Rudhra Constructions on +91 99498 36096">
+            <LineIcon name="phone" />
+            <span>
+              +91 99498 36096
+              <small>Call Us</small>
+            </span>
+          </a>
+          <a href="mailto:sales@rudhraconstructions.com">
+            <LineIcon name="mail" />
+            <span>sales@rudhraconstructions.com<small>Email Us</small></span>
+          </a>
+          <a href="https://wa.me/918309475836" target="_blank" rel="noreferrer" aria-label="Chat with Rudhra Constructions on WhatsApp">
+            <LineIcon name="whatsapp" />
+            <span>Chat on WhatsApp<small>Message Us</small></span>
+          </a>
         </section>
       </main>
       <SiteFooter showBenefits={false} />

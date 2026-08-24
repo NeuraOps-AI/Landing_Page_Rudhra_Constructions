@@ -30,7 +30,36 @@ export type Project = {
 const media = (src: string, alt: string): ProjectMedia => ({ src, alt });
 
 export const webProjectImage = (src: string) =>
-  src.replace(/^\/images\//, "/images/project-web/").replace(/\.(?:jpe?g|png|tiff?)$/i, ".webp");
+  src.startsWith("/images/project-web/")
+    ? src
+    : src.replace(/^\/images\//, "/images/project-web/").replace(/\.(?:jpe?g|png|tiff?)$/i, ".webp");
+
+const parkAvenueFloorPlans: ProjectMedia[] = [
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-east-ground-floor.webp", "Park Avenue 183 square yard east-facing ground floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-east-first-floor.webp", "Park Avenue 183 square yard east-facing first floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-east-second-floor.webp", "Park Avenue 183 square yard east-facing second floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-west-ground-floor.webp", "Park Avenue 183 square yard west-facing ground floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-west-first-floor.webp", "Park Avenue 183 square yard west-facing first floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-183-west-second-floor.webp", "Park Avenue 183 square yard west-facing second floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-east-ground-floor.webp", "Park Avenue 200 square yard east-facing ground floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-east-first-floor.webp", "Park Avenue 200 square yard east-facing first floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-east-second-floor.webp", "Park Avenue 200 square yard east-facing second floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-west-ground-floor.webp", "Park Avenue 200 square yard west-facing ground floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-west-first-floor.webp", "Park Avenue 200 square yard west-facing first floor plan"),
+  media("/images/project-web/Ongoing projects/Park Avenue/Floor Plans/park-avenue-200-west-second-floor.webp", "Park Avenue 200 square yard west-facing second floor plan"),
+];
+
+const rudhraEstatesFloorPlans: ProjectMedia[] = [
+  media("/images/project-web/Ongoing projects/Rudhra Estates/Floor Plans/rudhra-estates-first-floor-plan.webp", "Rudhra Estates first floor plan"),
+  media("/images/project-web/Ongoing projects/Rudhra Estates/Floor Plans/rudhra-estates-typical-floor-plan.webp", "Rudhra Estates typical floor plan"),
+  ...Array.from({ length: 21 }, (_, index) => {
+    const page = String(index + 1).padStart(2, "0");
+    return media(
+      `/images/project-web/Ongoing projects/Rudhra Estates/Floor Plans/rudhra-estates-unit-plan-${page}.webp`,
+      `Rudhra Estates unit plan ${index + 1}`,
+    );
+  }),
+];
 
 export const projects: Project[] = [
   {
@@ -39,7 +68,7 @@ export const projects: Project[] = [
     category: "Triplex Premium Villas",
     location: "Bowrampet, Hyderabad",
     status: "Ongoing",
-    image: "/images/Ongoing projects/Park Avenue/Not Final Cam/Bird_View..jpg",
+    image: "/images/Ongoing projects/Park Avenue/Not Final Cam/Bird_View..webp",
     alt: "Aerial architectural view of Park Avenue premium villas",
     description: "Park Avenue is an ongoing community of 138 triplex premium villas in Bowrampet, presented through a comprehensive collection of arrival, garden, street and aerial views.",
     facts: [
@@ -51,20 +80,16 @@ export const projects: Project[] = [
     overview: [["Project Type", "Triplex premium villas"], ["Total Villas", "138"], ["Location", "Bowrampet, Hyderabad"], ["Status", "Ongoing"]],
     highlights: ["A 138-villa residential development", "Triplex villa typology", "Landscaped garden and community visualisations", "Multiple east- and west-facing villa elevations"],
     gallery: [
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Bird_View..jpg", "Park Avenue aerial view"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Gate View.jpg", "Park Avenue entrance gate"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Garden View 02..jpg", "Park Avenue landscaped garden"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Garden View 03.jpg", "Park Avenue garden amenity"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Cam 02.jpg", "Park Avenue villa street view"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Cam 03.jpg", "Park Avenue community view"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/gajebo view_.jpg", "Park Avenue gazebo view"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Top_view_01.jpg", "Park Avenue top view"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Bird_View..webp", "Park Avenue aerial view"),
+      media("/images/project-web/Ongoing projects/Park Avenue/Not Final Cam/park-avenue-ashoka-entrance.webp", "Park Avenue Ashoka entrance gate"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Garden View 02..webp", "Park Avenue landscaped garden"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Garden View 03.webp", "Park Avenue garden amenity"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Cam 02.webp", "Park Avenue villa street view"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Cam 03.webp", "Park Avenue community view"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/gajebo view_.webp", "Park Avenue gazebo view"),
+      media("/images/Ongoing projects/Park Avenue/Not Final Cam/Top_view_01.webp", "Park Avenue top view"),
     ],
-    floorPlans: [
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/183 SQ YDS EAST.jpg", "Park Avenue 183 square yard east-facing villa elevation"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/200 SQ YDS EAST_.jpg", "Park Avenue 200 square yard east-facing villa elevation"),
-      media("/images/Ongoing projects/Park Avenue/Not Final Cam/200 SQ YDS WEST_001 .jpg", "Park Avenue 200 square yard west-facing villa elevation"),
-    ],
+    floorPlans: parkAvenueFloorPlans,
   },
   {
     slug: "royal-village-2",
@@ -126,7 +151,7 @@ export const projects: Project[] = [
       media("/images/Ongoing projects/Rudhra Estates/View_04_ FFFFFF copy.jpg", "Rudhra Estates landscaped view"),
       media("/images/Ongoing projects/Rudhra Estates/View_08_Night_ FFFFF copy.jpg", "Rudhra Estates night view"),
     ],
-    floorPlans: [],
+    floorPlans: rudhraEstatesFloorPlans,
   },
   {
     slug: "rudhra-empire",

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import type { ProjectGalleryImage } from "@/data/projectGallery";
 import { GalleryNavigation } from "./GalleryNavigation";
 import { GalleryPagination } from "./GalleryPagination";
@@ -21,6 +22,9 @@ export function FullscreenGallery({ open, image, activeIndex, count, onClose, on
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const pointerStartX = useRef<number | null>(null);
+  const pointerStartY = useRef<number | null>(null);
+  const activePointers = useRef(new Set<number>());
+  const multiTouchGesture = useRef(false);
 
   useEffect(() => {
     if (!open) return;
@@ -53,33 +57,56 @@ export function FullscreenGallery({ open, image, activeIndex, count, onClose, on
     }
   };
 
-  return (
+  const overlay = (
     <div
       ref={dialogRef}
-      className="fixed inset-0 z-[100] flex touch-pan-y items-center justify-center bg-[#020812]/98 px-3 py-16 sm:px-8 sm:py-20"
+      className="gallery-fullscreen-overlay fixed inset-0 z-[400] flex items-center justify-center bg-[#020812]/98 px-3 py-16 sm:px-8 sm:py-20"
       role="dialog"
       aria-modal="true"
       aria-label="Fullscreen project gallery"
       onKeyDown={handleDialogKeyDown}
       onPointerDown={(event) => {
+        activePointers.current.add(event.pointerId);
+        if (activePointers.current.size > 1) {
+          multiTouchGesture.current = true;
+          pointerStartX.current = null;
+          pointerStartY.current = null;
+          return;
+        }
         pointerStartX.current = event.clientX;
+        pointerStartY.current = event.clientY;
+      }}
+      onPointerMove={() => {
+        if (activePointers.current.size > 1) multiTouchGesture.current = true;
       }}
       onPointerUp={(event) => {
-        if (pointerStartX.current === null) return;
-        const distance = event.clientX - pointerStartX.current;
+        activePointers.current.delete(event.pointerId);
+        if (multiTouchGesture.current) {
+          pointerStartX.current = null;
+          pointerStartY.current = null;
+          if (activePointers.current.size === 0) multiTouchGesture.current = false;
+          return;
+        }
+        if (pointerStartX.current === null || pointerStartY.current === null) return;
+        const distanceX = event.clientX - pointerStartX.current;
+        const distanceY = event.clientY - pointerStartY.current;
         pointerStartX.current = null;
-        if (Math.abs(distance) < 44) return;
-        if (distance > 0) onPrevious();
+        pointerStartY.current = null;
+        if (Math.abs(distanceX) < 54 || Math.abs(distanceX) <= Math.abs(distanceY) * 1.25) return;
+        if (distanceX > 0) onPrevious();
         else onNext();
       }}
-      onPointerCancel={() => {
+      onPointerCancel={(event) => {
+        activePointers.current.delete(event.pointerId);
         pointerStartX.current = null;
+        pointerStartY.current = null;
+        if (activePointers.current.size === 0) multiTouchGesture.current = false;
       }}
     >
       <button
         ref={closeRef}
         type="button"
-        className="gallery-focus absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full border border-white/25 bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-7 sm:top-7 sm:size-12"
+        className="gallery-fullscreen-close gallery-focus absolute z-50 grid size-11 place-items-center rounded-full border border-white/30 bg-[#071a31]/85 text-white shadow-[0_10px_26px_rgba(0,0,0,.35)] backdrop-blur-md transition-colors hover:bg-[#164f88] sm:size-12"
         onClick={onClose}
         aria-label="Close fullscreen gallery"
       >
@@ -107,7 +134,7 @@ export function FullscreenGallery({ open, image, activeIndex, count, onClose, on
           fill
           priority
           sizes="100vw"
-          className="gallery-image-enter object-cover"
+          className="gallery-image-enter object-contain"
         />
       </div>
 
@@ -118,4 +145,6 @@ export function FullscreenGallery({ open, image, activeIndex, count, onClose, on
       )}
     </div>
   );
+
+  return createPortal(overlay, document.body);
 }

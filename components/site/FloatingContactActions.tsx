@@ -10,15 +10,15 @@ const instagramUrl = "https://www.instagram.com/rudhraconstructionsofficial?igsh
 export function FloatingContactActions() {
   return (
     <aside className="floating-contact-actions" aria-label="Quick contact actions">
-      <button
-        type="button"
+      <a
+        href="#enquire"
         className="floating-contact-action is-enquiry"
         onClick={openLeadPopup}
         aria-label="Open project enquiry form"
       >
         <span>Enquire Now</span>
-        <i><LineIcon name="message" /></i>
-      </button>
+        <i><LineIcon name="lead-message" /></i>
+      </a>
       <a
         className="floating-contact-action is-call"
         href={`tel:${primaryPhone}`}

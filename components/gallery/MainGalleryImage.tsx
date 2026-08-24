@@ -15,20 +15,47 @@ type MainGalleryImageProps = {
 
 export function MainGalleryImage({ image, activeIndex, count, onPrevious, onNext, onOpenFullscreen }: MainGalleryImageProps) {
   const pointerStartX = useRef<number | null>(null);
+  const pointerStartY = useRef<number | null>(null);
+  const activePointers = useRef(new Set<number>());
+  const multiTouchGesture = useRef(false);
   const swipedRef = useRef(false);
 
+  const blockOpenTemporarily = () => {
+    swipedRef.current = true;
+    window.setTimeout(() => { swipedRef.current = false; }, 400);
+  };
+
   const handlePointerDown = (event: React.PointerEvent<HTMLElement>) => {
+    activePointers.current.add(event.pointerId);
+    if (activePointers.current.size > 1) {
+      multiTouchGesture.current = true;
+      blockOpenTemporarily();
+      pointerStartX.current = null;
+      pointerStartY.current = null;
+      return;
+    }
     pointerStartX.current = event.clientX;
+    pointerStartY.current = event.clientY;
     swipedRef.current = false;
   };
 
   const handlePointerUp = (event: React.PointerEvent<HTMLElement>) => {
-    if (pointerStartX.current === null) return;
-    const distance = event.clientX - pointerStartX.current;
+    activePointers.current.delete(event.pointerId);
+    if (multiTouchGesture.current) {
+      blockOpenTemporarily();
+      pointerStartX.current = null;
+      pointerStartY.current = null;
+      if (activePointers.current.size === 0) multiTouchGesture.current = false;
+      return;
+    }
+    if (pointerStartX.current === null || pointerStartY.current === null) return;
+    const distanceX = event.clientX - pointerStartX.current;
+    const distanceY = event.clientY - pointerStartY.current;
     pointerStartX.current = null;
-    if (Math.abs(distance) < 44) return;
-    swipedRef.current = true;
-    if (distance > 0) onPrevious();
+    pointerStartY.current = null;
+    if (Math.abs(distanceX) < 54 || Math.abs(distanceX) <= Math.abs(distanceY) * 1.25) return;
+    blockOpenTemporarily();
+    if (distanceX > 0) onPrevious();
     else onNext();
   };
 
@@ -39,8 +66,12 @@ export function MainGalleryImage({ image, activeIndex, count, onPrevious, onNext
       aria-label={`Gallery image ${activeIndex + 1} of ${count}`}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      onPointerCancel={() => {
+      onPointerCancel={(event) => {
+        activePointers.current.delete(event.pointerId);
         pointerStartX.current = null;
+        pointerStartY.current = null;
+        blockOpenTemporarily();
+        if (activePointers.current.size === 0) multiTouchGesture.current = false;
       }}
     >
       <button

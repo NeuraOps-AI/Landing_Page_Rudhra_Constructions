@@ -16,8 +16,16 @@ function CarouselArrow({ direction }: { direction: "previous" | "next" }) {
 export function LifestyleCarousel() {
   const [activeIndex, setActiveIndex] = useState(Math.min(3, projectGalleryImages.length - 1));
   const [fullscreenOpen, setFullscreenOpen] = useState(false);
-  const swipeStart = useRef<number | null>(null);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const activePointers = useRef(new Set<number>());
+  const multiTouchGesture = useRef(false);
+  const suppressOpen = useRef(false);
   const count = projectGalleryImages.length;
+
+  const blockOpenTemporarily = () => {
+    suppressOpen.current = true;
+    window.setTimeout(() => { suppressOpen.current = false; }, 400);
+  };
 
   const selectImage = useCallback((index: number) => {
     setActiveIndex(((index % count) + count) % count);
@@ -70,17 +78,49 @@ export function LifestyleCarousel() {
         <button
           type="button"
           className="lifestyle-carousel-main"
-          onClick={() => setFullscreenOpen(true)}
-          onPointerDown={(event) => { swipeStart.current = event.clientX; }}
+          onClick={() => {
+            if (suppressOpen.current) {
+              suppressOpen.current = false;
+              return;
+            }
+            setFullscreenOpen(true);
+          }}
+          onPointerDown={(event) => {
+            activePointers.current.add(event.pointerId);
+            if (activePointers.current.size > 1) {
+              multiTouchGesture.current = true;
+              blockOpenTemporarily();
+              swipeStart.current = null;
+              return;
+            }
+            swipeStart.current = { x: event.clientX, y: event.clientY };
+          }}
+          onPointerMove={() => {
+            if (activePointers.current.size > 1) multiTouchGesture.current = true;
+          }}
           onPointerUp={(event) => {
+            activePointers.current.delete(event.pointerId);
+            if (multiTouchGesture.current) {
+              blockOpenTemporarily();
+              swipeStart.current = null;
+              if (activePointers.current.size === 0) multiTouchGesture.current = false;
+              return;
+            }
             if (swipeStart.current === null) return;
-            const distance = event.clientX - swipeStart.current;
+            const distanceX = event.clientX - swipeStart.current.x;
+            const distanceY = event.clientY - swipeStart.current.y;
             swipeStart.current = null;
-            if (Math.abs(distance) < 48) return;
-            if (distance > 0) previous();
+            if (Math.abs(distanceX) < 54 || Math.abs(distanceX) <= Math.abs(distanceY) * 1.25) return;
+            blockOpenTemporarily();
+            if (distanceX > 0) previous();
             else next();
           }}
-          onPointerCancel={() => { swipeStart.current = null; }}
+          onPointerCancel={(event) => {
+            activePointers.current.delete(event.pointerId);
+            swipeStart.current = null;
+            blockOpenTemporarily();
+            if (activePointers.current.size === 0) multiTouchGesture.current = false;
+          }}
           aria-label={`Open ${activeImage.title} image in fullscreen`}
         >
           <Image

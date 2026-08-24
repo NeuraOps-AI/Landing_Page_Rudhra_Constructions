@@ -4,7 +4,7 @@ import { BenefitStrip } from "./BenefitStrip";
 import { LineIcon } from "./LineIcon";
 
 const columns = [
-  { title: "Company", links: [["About Us", "/about"], ["Why Rudhra", "/#why-rudhra"], ["Our Team", "/about#team"], ["Careers", "/contact"], ["News & Blog", "/news-blog"]] },
+  { title: "Company", links: [["About Us", "/about"], ["Our Team", "/about#team"], ["News & Blog", "/news-blog"], ["Jobs", "/jobs"]] },
   { title: "Projects", links: [["Ongoing Projects", "/projects"], ["Completed Projects", "/projects"], ["Upcoming Projects", "/projects"], ["Residential Villas", "/projects/royal-village-2"], ["Commercial Spaces", "/projects/rudhra-empire"], ["Gated Communities", "/projects/park-avenue"]] },
   { title: "Resources", links: [["Project Portfolio", "/projects"], ["Gallery", "/projects/park-avenue#gallery"], ["FAQs", "/contact"], ["Policies", "/contact"]] },
 ];
