@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { createCrmLead } from "@/lib/crm";
+import { trackLead } from "@/lib/analytics";
 import { useCrmProjects } from "./CrmProjectsProvider";
 import { LineIcon } from "./LineIcon";
 import { PremiumSelect } from "./PremiumSelect";
@@ -40,6 +41,7 @@ export function ContactForm() {
         phone: String(formData.get("phone") ?? ""),
         projectId: project.id,
       });
+      trackLead("contact_form", project.name);
       setStatus("success");
       setStatusMessage("Thank you. Our team will contact you shortly.");
       form.reset();

@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { OPEN_LEAD_POPUP_EVENT } from "@/lib/lead-popup";
 import { createCrmLead } from "@/lib/crm";
+import { trackLead } from "@/lib/analytics";
 import { useCrmProjects } from "./CrmProjectsProvider";
 import { LineIcon } from "./LineIcon";
 
@@ -141,6 +142,7 @@ export function LeadCapturePopup() {
     setSubmitting(true);
     try {
       await createCrmLead({ name, phone, projectId: activeProjectId });
+      trackLead("lead_popup", selectedProject?.name);
       submittedRef.current = true;
       setSubmitted(true);
     } catch (error) {

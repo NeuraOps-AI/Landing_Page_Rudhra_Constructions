@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { createCrmLead } from "@/lib/crm";
+import { trackLead } from "@/lib/analytics";
 import { useCrmProjects } from "./CrmProjectsProvider";
 import { LineIcon } from "./LineIcon";
 import { PremiumSelect } from "./PremiumSelect";
@@ -46,6 +47,7 @@ export function ProjectEnquiryForm({ projectName }: ProjectEnquiryFormProps) {
         phone: String(formData.get("phone") ?? ""),
         projectId: crmProject.id,
       });
+      trackLead("project_enquiry_form", crmProject.name);
       setStatus("success");
       setStatusMessage("Enquiry received. We’ll contact you shortly.");
       form.reset();

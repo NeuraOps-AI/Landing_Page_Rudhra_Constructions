@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { CrmProjectsProvider } from "@/components/site/CrmProjectsProvider";
 import { FloatingContactActions } from "@/components/site/FloatingContactActions";
 import { LeadCapturePopup } from "@/components/site/LeadCapturePopup";
+import { ProductionAnalytics } from "@/components/site/ProductionAnalytics";
 import { SiteNavbar } from "@/components/site/SiteNavbar";
 import { ScrollMotion } from "@/components/site/ScrollMotion";
 import { StartupLoader } from "@/components/site/StartupLoader";
@@ -25,6 +26,15 @@ export const viewport: Viewport = {
   themeColor: "#0c407a",
 };
 
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
+const analyticsAllowedHosts = (
+  process.env.NEXT_PUBLIC_ANALYTICS_ALLOWED_HOSTS
+  ?? "rudhraconstructions.com,www.rudhraconstructions.com"
+)
+  .split(",")
+  .map((hostname) => hostname.trim().toLowerCase())
+  .filter(Boolean);
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
@@ -37,6 +47,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <LeadCapturePopup />
           <FloatingContactActions />
         </CrmProjectsProvider>
+        {process.env.NODE_ENV === "production" && gaMeasurementId ? (
+          <ProductionAnalytics
+            measurementId={gaMeasurementId}
+            allowedHosts={analyticsAllowedHosts}
+          />
+        ) : null}
       </body>
     </html>
   );
